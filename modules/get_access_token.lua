@@ -57,8 +57,6 @@ function start_auth()
             "&redirect_uri=" .. redirect_uri ..
             "&state=xyz123"
         }))
-
-        print("ку")
     end)
 end
 
