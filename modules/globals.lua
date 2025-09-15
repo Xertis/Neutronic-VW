@@ -1,9 +1,7 @@
 local globals = {}
 
 globals.config = {
-    client_id = "",
-    access_token = "",
-    app_token = ""
+    access_token = ""
 }
 
 function globals.write()

@@ -1,4 +1,4 @@
-<container id="vw_alert" size="300,250" pos="325,200" context='menu'>
-    <textbox gravity="top-center" size="300,200" id='info' multiline="true" editable="false">%{text}</textbox>
-    <button gravity="bottom-center" size="300,40" onclick='document.vw_alert:destruct()'>@Back</button>
+<container id="vw_alert" size="400,300" pos="325,150" context='menu'>
+    <textbox gravity="top-center" size="400,250" id='info' multiline="true" editable="false">%{text}</textbox>
+    <button gravity="bottom-center" size="400,40" onclick='document.vw_alert:destruct()'>@Back</button>
 </container>

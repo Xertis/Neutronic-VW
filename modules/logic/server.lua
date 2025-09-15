@@ -8,7 +8,6 @@ end)
 
 api.events.on("neutronic_vw", "token", function (client, bytes)
     local data = api.bson.deserialize(bytes)
-
     network.post("https://api.voxelworld.ru/v2/one-time-token/check", {
         one_time_token = data.token
     },
@@ -27,6 +26,9 @@ api.events.on("neutronic_vw", "token", function (client, bytes)
     function(code)
         api.accounts.kick(client.account, "Invalid token received")
         api.console.echo(api.console.colors.red .. string.format('[NEUTRONIC_VW] Аккаунт "%s" отправил неверный токен', client.account.name))
-    end
+    end,
+        {
+            "Accept: application/json"
+        }
     )
 end)

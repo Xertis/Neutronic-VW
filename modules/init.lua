@@ -6,6 +6,4 @@ end
 local globals = require "globals"
 local config = json.parse(file.read(config_path))
 
-globals.config.client_id = config.client_id
 globals.config.access_token = config.access_token
-globals.config.app_token = config.app_token
