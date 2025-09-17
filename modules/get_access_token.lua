@@ -28,6 +28,7 @@ local function exchange_code_for_token(auth_code, code_verifier, callback)
             local data = json.parse(response)
             if data.access_token then
                 print("Access token получен")
+                globals.constants.document.vw_notification_text.text = "Авторизация прошла успешно"
                 globals.config.access_token = data.access_token
                 globals.config.refresh_token = data.refresh_token
                 globals.config.expires_in = os.time() + data.expires_in
@@ -38,6 +39,7 @@ local function exchange_code_for_token(auth_code, code_verifier, callback)
             end
         end,
         function(code, response)
+            globals.constants.document.vw_notification_text.text = "Произошла ошибка с кодом: " .. code
             print("Ошибка HTTP при обмене кода:", code, response)
         end,
         {
@@ -47,6 +49,8 @@ local function exchange_code_for_token(auth_code, code_verifier, callback)
 end
 
 function start_auth()
+    if not globals.constants.document.root then return end
+
     local function hex_to_bytes(hex)
         local t = {}
         for cc in hex:gmatch("..") do

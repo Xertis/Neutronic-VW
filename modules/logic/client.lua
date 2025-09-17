@@ -16,6 +16,11 @@ api.events.on("neutronic_vw", "auth", function ()
             }))
         end,
         function(code, response)
+            if code == 401 then
+                gui.alert("Произошла ошибка во время генерации одноразового токена, вероятно, вы не вошли в аккаунт VoxelWorld")
+            else
+                gui.alert("Произошла ошибка во время генерации одноразового токена\nКод ошибки: " .. code)
+            end
             print(code, response)
         end,
         {

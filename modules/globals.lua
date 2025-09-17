@@ -12,6 +12,10 @@ globals.constants = {
     document = {}
 }
 
+globals.server = {
+    queue = {}
+}
+
 globals.constants.redirect_uri = string.format("http://localhost:%s/neutronic", globals.constants.port)
 
 function globals.write()

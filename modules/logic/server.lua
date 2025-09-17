@@ -1,13 +1,20 @@
 local m = _G["$Multiplayer"]
 local api = require(string.format("%s:api/%s/api", m.pack_id, m.api_references.Neutron[1]))[m.side]
+local globals = require "globals"
 
 events.on("server:client_connected", function (client)
     api.events.tell("neutronic_vw", "auth", client, Bytearray(255))
+    globals.server.queue[client.client_id] = {
+        client = client,
+        time = time.uptime()
+    }
     client.account.is_logged = false
 end)
 
 api.events.on("neutronic_vw", "token", function (client, bytes)
     local data = api.bson.deserialize(bytes)
+    globals.server.queue[client.client_id] = nil
+
     network.post("https://api.voxelworld.ru/v2/one-time-token/check", {
         one_time_token = data.token
     },
@@ -26,7 +33,7 @@ api.events.on("neutronic_vw", "token", function (client, bytes)
     function(code)
         print("Ошибка с кодом: " .. code)
         api.accounts.kick(client.account, "Invalid token received")
-        api.console.echo(api.console.colors.red .. string.format('[NEUTRONIC_VW] Аккаунт "%s" отправил неверный токен', client.account.name))
+        api.console.echo(api.console.colors.red .. string.format('[NEUTRONIC_VW] Аккаунт "%s" отправил неверный токен', client.account.username))
     end,
         {
             "Accept: application/json"
