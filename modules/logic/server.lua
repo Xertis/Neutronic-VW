@@ -11,6 +11,10 @@ events.on("server:client_connected", function (client)
     client.account.is_logged = false
 end)
 
+events.on("server:client_disconnected", function (client)
+    globals.server.queue[client.client_id] = nil
+end)
+
 api.events.on("neutronic_vw", "token", function (client, bytes)
     local data = api.bson.deserialize(bytes)
     globals.server.queue[client.client_id] = nil
