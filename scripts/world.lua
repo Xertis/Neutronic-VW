@@ -12,15 +12,17 @@ function on_world_open()
     end
 end
 
-events.on("server:client_pipe_start", function (client)
-    local cur_time = time.uptime()
+if m.side == "server" then
+    events.on("server:client_pipe_start", function (client)
+        local cur_time = time.uptime()
 
-    local client_info = globals.server.queue[client.client_id]
-    if not client_info then return end
+        local client_info = globals.server.queue[client.client_id]
+        if not client_info then return end
 
-    if client_info.time+15 < cur_time then
-        api.accounts.kick(client.account, "Authorization timeout exceeded")
-        api.console.echo(api.console.colors.red .. string.format('[NEUTRONIC_VW] Аккаунт "%s" превысил время ожидания', client.account.username))
-        globals.server.queue[client.client_id] = nil
-    end
-end)
+        if client_info.time+15 < cur_time then
+            api.accounts.kick(client.account, "Authorization timeout exceeded")
+            api.console.echo(api.console.colors.red .. string.format('[NEUTRONIC_VW] Аккаунт "%s" превысил время ожидания', client.account.username))
+            globals.server.queue[client.client_id] = nil
+        end
+    end)
+end
