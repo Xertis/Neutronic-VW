@@ -1,7 +1,7 @@
 local module = {}
 
 function module.gen(length)
-    local chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+    local chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     local result = ""
 
     for _ = 1, length do
