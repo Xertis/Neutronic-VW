@@ -1,7 +1,7 @@
 require "init"
 
 local m = _G["$Multiplayer"]
-local api = require(string.format("%s:api/%s/api", m.pack_id, m.api_references.Neutron[1]) )[m.side]
+local api = require(string.format("%s:api/%s/api", m.pack_id, m.api_references.Neutron[1]))[m.side]
 
 local globals = require "globals"
 
@@ -15,11 +15,12 @@ api.events.on("neutronic_vw", "auth", function ()
                 token = token
             }))
         end,
-        function(code)
-            print(code)
+        function(code, response)
+            print(code, response)
         end,
         {
             "Authorization: Bearer " .. globals.config.access_token,
+            "Accept: application/json"
         }
     )
     end

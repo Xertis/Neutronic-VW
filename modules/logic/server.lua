@@ -1,5 +1,5 @@
 local m = _G["$Multiplayer"]
-local api = require(string.format("%s:api/%s/api", m.pack_id, m.api_references.Neutron[1]) )[m.side]
+local api = require(string.format("%s:api/%s/api", m.pack_id, m.api_references.Neutron[1]))[m.side]
 
 events.on("server:client_connected", function (client)
     api.events.tell("neutronic_vw", "auth", client, Bytearray(255))
@@ -24,6 +24,7 @@ api.events.on("neutronic_vw", "token", function (client, bytes)
         client.account.is_logged = true
     end,
     function(code)
+        print("Ошибка с кодом: " .. code)
         api.accounts.kick(client.account, "Invalid token received")
         api.console.echo(api.console.colors.red .. string.format('[NEUTRONIC_VW] Аккаунт "%s" отправил неверный токен', client.account.name))
     end,

@@ -1,18 +1,15 @@
 local module = {}
 
-function module.pseudorand(length)
-    local charset = "abcdefghijklmnopqrstuvwxyz0123456789"
-    local result = {}
+function module.gen(length)
+    local chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+    local result = ""
 
-    local seed = collectgarbage("count") * 1000 + os.clock() * 1000 + math.round(time.uptime() * 1000)
-
-    for i = 1, length do
-        seed = (seed * 9301 + 49297) % 233280
-        local index = math.floor(seed / 233280 * #charset) + 1
-        table.insert(result, charset:sub(index, index))
+    for _ = 1, length do
+        local random_index = random.random(1, #chars)
+        result = result .. chars:sub(random_index, random_index)
     end
 
-    return table.concat(result)
+    return result
 end
 
 return module
