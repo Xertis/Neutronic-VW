@@ -26,7 +26,7 @@ api.events.on("neutronic_vw", "token", function (client, bytes)
         local info = json.parse(response).data
 
         if info.name ~= client.account.username then
-            api.accounts.kick(client.account, "Invalid username")
+            api.accounts.kick(client.account, "Invalid username", true)
             api.console.echo(api.console.colors.red .. string.format('[NEUTRONIC_VW] Аккаунт "%s" вошёл с другого никнейма', info.name))
             return
         end
@@ -36,7 +36,7 @@ api.events.on("neutronic_vw", "token", function (client, bytes)
     end,
     function(code)
         print("Ошибка с кодом: " .. code)
-        api.accounts.kick(client.account, "Invalid token received")
+        api.accounts.kick(client.account, "Invalid token received", true)
         api.console.echo(api.console.colors.red .. string.format('[NEUTRONIC_VW] Аккаунт "%s" отправил неверный токен', client.account.username))
     end,
         {
