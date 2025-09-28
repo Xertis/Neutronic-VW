@@ -5,6 +5,8 @@ local api = require(string.format("%s:api/%s/api", m.pack_id, m.api_references.N
 
 local globals = require "globals"
 
+local MAX_IMAGE_SIZE = 2^32-1
+
 api.events.on("neutronic_vw", "auth", function ()
     network.post("https://api.voxelworld.ru/v2/one-time-token/generate",
         {},
@@ -30,3 +32,43 @@ api.events.on("neutronic_vw", "auth", function ()
     )
     end
 )
+
+api.events.on("neutronic_vw", "avatar", function (bytes)
+    local data = api.bson.deserialize(bytes)
+
+    local username = data.username
+    local url = data.url
+
+    if not string.ends_with(string.lower(url), ".png") then
+        return
+    end
+
+    network.get_binary(
+        url,
+        function (avatar_bytes)
+            if #avatar_bytes > MAX_IMAGE_SIZE then
+                return
+            end
+
+            local avatar_id = "NEUTRONIC_VW_AVATAR_" .. username
+
+            local status, err = pcall(assets.load_texture,
+                avatar_bytes,
+                avatar_id
+            )
+
+            if not status then
+                print(err)
+                return
+            end
+
+            globals.client.avatars[username] = avatar_id
+        end
+    )
+end)
+
+events.on("quartz:pause_opened", function (document)
+    for name, avatar_id in pairs(globals.client.avatars) do
+        document["player_icon_" .. name].src = avatar_id
+    end
+end)

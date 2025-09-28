@@ -13,7 +13,12 @@ globals.constants = {
 }
 
 globals.server = {
-    queue = {}
+    queue = {},
+    avatars = {}
+}
+
+globals.client = {
+    avatars = {}
 }
 
 globals.constants.redirect_uri = string.format("http://localhost:%s/neutronic", globals.constants.port)
