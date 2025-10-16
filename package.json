@@ -1,7 +1,7 @@
 {
     "id": "neutronic_vw",
     "title": "Neutronic VoxelWorld",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "Система авторизации на серверах через VW",
     "creators": ["Xertis"]
 }
