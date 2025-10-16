@@ -69,6 +69,8 @@ end)
 
 events.on("quartz:pause_opened", function (document)
     for name, avatar_id in pairs(globals.client.avatars) do
-        document["player_icon_" .. name].src = avatar_id
+        pcall(function ()
+            document["player_icon_" .. name].src = avatar_id
+        end)
     end
 end)
